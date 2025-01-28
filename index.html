@@ -16,21 +16,23 @@
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2&family=Fredoka&family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;1,300;1,500;1,700&family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,102.8,200..1000,452;1,6..12,102.8,200..1000,452&family=Open+Sans:wght@300;400;500;600;700;800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2&family=Fredoka&family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;1,300;1,500;1,700&family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,102.8,200..1000,452;1,6..12,102.8,200..1000,452&family=Open+Sans:wght@300;400;500;600;700;800&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:wght@500&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
     <!-- header -->
-    <header class="text-center">
-        <a class="h-100 d-inline-block logo" href="https://www.instagram.com/kinkisushi.aulla/"><img class="h-75 my-auto" src="/img/icon.png" alt=""></a>
+    <header class="container-sm text-center d-flex justify-content-evenly align-items-center">
+        <a class="h-100 d-inline-block logo" href="https://www.instagram.com/kinkisushi.aulla/">
+            <img class="h-50 my-auto" src="/img/icon.png" alt="logo kinki sushi">
+        </a>
+        <h1 class="ms-header-title">Crea la tua Poke</h1>
+        <a class="h-100 d-inline-block logo" href="https://www.instagram.com/kinkisushi.aulla/">
+            <img class="h-50 my-auto" src="/img/icon.png" alt="logo kinki sushi">
+        </a>
     </header>
     <!-- header -->
-
-    <!-- titolo -->
-    <section>
-        <div class="text-center mt-4"><h1>Crea la tua Poke</h1></div>
-    </section>
-    <!-- titolo -->
 
     <!-- box ingredienti -->
     <section>
@@ -40,13 +42,18 @@
     </section>
     <!-- box ingredienti -->
 
-    <!-- nutton submit -->
+    <!-- button submit -->
     <section>
-        <div class="d-flex flex-column justify-content-center align-items-center mt-2 mb-5 submit-container">
-            <button type="button" class="btn ms-btn fw-bold w-50">Salva poke</button>
+        <div class="d-flex justify-content-evenly align-items-center mt-5 mb-2 poke-storage-container w-100">
+            <button type="button" class="ms-btn fw-bold" onclick="savePoke()">Salva poke</button>
+            <div class="price fw-bold"></div>
+            <div class="poke-img-container position-relative" onclick="openCart()">
+                <img src="./img/poke.png" alt="immagine poke">
+                <span class="poke-badge position-absolute badge-hidden" onclick="showCart()"></span>
+            </div>
         </div>
     </section>
-    <!-- nutton submit -->
+    <!-- button submit -->
 
     <!-- registrazione service worker -->
     <script>
@@ -62,6 +69,8 @@
             // console.log('Il tuo browser non supporta i Service Worker.');
         }
     </script>
+    <!-- registrazione service worker -->
+
     <!-- js principale -->
     <script src="/js/main.js"></script>
 </body>

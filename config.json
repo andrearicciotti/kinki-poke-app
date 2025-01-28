@@ -1,5 +1,5 @@
 [{
-    "price" : 9.90,
+    "price" : "9.90",
     "ingredients" : {
         "bases" : [
             "riso bianco",
@@ -41,7 +41,7 @@
             "Mango",
             "Teriyaki",
             "Maionese",
-            "Olio d'oliva extravergine",
+            "Olio d' oliva extravergine",
             "Philadelphia",
             "Chili (piccante)",
             "Creamcheese (piccante)"
@@ -61,6 +61,7 @@
         "sauces" : 0.5
     },
     "maximals" : {
+        "bases" : 1,
         "proteins" : 6,
         "greens" : 8,
         "toppings" : 6,

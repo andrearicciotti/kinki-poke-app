@@ -1,10 +1,10 @@
 header {
-    height: 6rem;
+    height: 5rem;
     background-color: black;
 }
 
 .logo {
-    line-height: 6rem;
+    line-height: 4.5rem;
 }
 
 body {
@@ -23,9 +23,13 @@ body {
     padding: 0;
 }
 
+.ms-header-title {
+    color: white;
+}
+
 .ms-title {
     position: sticky;
-    top: 0;
+    top: -5px;
     background: rgb(255, 238, 217);
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -68,11 +72,38 @@ body {
     font-weight: bolder;
 }
 
-.ingredient-badge-hidden {
+.badge-hidden {
     display: none;
+}
+
+.poke-badge {
+    width: 23px;
+    height: 23px;
+    top: -12px;
+    right: -15px;
+    border-radius: 50%;
+    background: rgb(255, 125, 125);
+    color: white;
+    font-weight: bolder;
 }
 
 .ms-btn {
     background: rgb(135, 180, 135);
     color: white;
+    border: none;
+    border-radius: 5px;
+    padding: .7rem;
 }
+
+.poke-storage-container {
+    position: fixed;
+    height: 6rem;
+    bottom: -10px;
+    z-index: 10;
+    background: rgb(255, 238, 217);
+}
+
+.mb-6 {
+    margin-bottom: 6rem !important;
+}
+ 
