@@ -1,0 +1,68 @@
+[{
+    "price" : 9.90,
+    "ingredients" : {
+        "proteins" : [
+            "Salmone tartare",
+            "Tonno tartare",
+            "Branzino tartare",
+            "Octopus",
+            "Gamberi cotti",
+            "Tonno cotto",
+            "Ceci",
+            "Gamberi fritti",
+            "Pollo fritto"
+        ],
+        "bases" : [
+            "riso bianco",
+            "riso nero",
+            "riso misto"
+        ],
+        "greens" : [
+            "Mais",
+            "Carote",
+            "Cetriolo",
+            "Pomodoro",
+            "Wakame (alghe)",
+            "Edamame (fagioli)",
+            "Anelli di olive",
+            "Avocado",
+            "Mango"
+        ],
+        "toppings" : [
+            "Sesamo",
+            "Pistacchio granato",
+            "Cipolla croccante",
+            "Mandorle croccanti a fette",
+            "Kataifi (pasta fine fritta)"
+        ],
+        "sauces" : [
+            "Soia",
+            "Mango",
+            "Teriyaki",
+            "Maionese",
+            "Olio d'oliva extravergine",
+            "Philadelphia",
+            "Chili (piccante)",
+            "Creamcheese (piccante)"
+        ]
+    },
+    "limits" : {
+        "base" : 1,
+        "protein" : 2,
+        "green" : 4,
+        "topping" : 2,
+        "sauce" : 2
+    },
+    "extra" : {
+        "protein" : 1,
+        "green" : 0.5,
+        "topping" : 0.5,
+        "sauce" : 0.5
+    },
+    "maximals" : {
+        "protein" : 6,
+        "green" : 8,
+        "topping" : 6,
+        "sauce" : 6
+    }
+}]

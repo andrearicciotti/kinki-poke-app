@@ -1,0 +1,30 @@
+header {
+    height: 6rem;
+    background-color: black;
+}
+
+.logo {
+    line-height: 6rem;
+}
+
+body {
+    background-color: rgb(255, 238, 217);
+    font-family: "Exo 2", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.box {
+    /* height: 100px; */
+    border: 1px solid green;
+    width: 100%;
+}
+
+.box ul {
+    padding: 0;
+}
+
+.box ul li {
+    list-style-type: none;
+}
