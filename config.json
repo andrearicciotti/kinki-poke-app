@@ -1,6 +1,11 @@
 [{
     "price" : 9.90,
     "ingredients" : {
+        "bases" : [
+            "riso bianco",
+            "riso nero",
+            "riso misto"
+        ],
         "proteins" : [
             "Salmone tartare",
             "Tonno tartare",
@@ -12,11 +17,7 @@
             "Gamberi fritti",
             "Pollo fritto"
         ],
-        "bases" : [
-            "riso bianco",
-            "riso nero",
-            "riso misto"
-        ],
+
         "greens" : [
             "Mais",
             "Carote",

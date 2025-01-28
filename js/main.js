@@ -19,12 +19,21 @@ async function main() {
 function generateBoxHTML(data) {
     const poke = data[0];
     const container = document.querySelector('.ingredients-container');
+    let i = 0;
 
     for (const key in poke.ingredients) {
+        i++;
+        let translations = {
+            bases: "Base",
+            proteins: "Proteine",
+            greens: "Verdure",
+            toppings: "Condimenti",
+            sauces: "Salse",
+        }
         
         container.innerHTML += 
         `<div class="box my-3 text-center">
-            <h2 class="mt-3 mb-3 fw-bold">${key}</h2>
+            <h2 style="z-index:${i}" class="mt-3 mb-4 py-3 fw-bolder ms-title fs-1">${translations[key]}</h2>
             <ul class="${key+'-list'} d-flex flex-column align-items-center">
             </ul>
         </div>`;
@@ -40,7 +49,7 @@ function generateIngredientsHTML(data) {
         poke.ingredients[key].forEach(ingredient => {
             list = document.querySelector('.'+key+'-list');
             list.innerHTML += 
-            `<li class="ingredient my-2 d-flex align-items-center position-relative"><i class="fa-solid fa-minus me-3" onclick="btnClick(false,'${key}','${ingredient}')"></i></i><span class="ingredient-text">${ingredient}</span><i class="fa-solid fa-plus ms-3" onclick="btnClick(true,'${key}','${ingredient}')"></i><span id="${key}-${ingredient}" class="ingredient-badge position-absolute ingredient-badge-hidden"></span></li>`;
+            `<li class="ingredient my-2 d-flex align-items-center justify-content-between position-relative"><i class="fa-solid fa-minus me-3" onclick="btnClick(false,'${key}','${ingredient}')"></i></i><span class="ingredient-text">${ingredient}</span><i class="fa-solid fa-plus ms-3" onclick="btnClick(true,'${key}','${ingredient}')"></i><span id="${key}-${ingredient}" class="ingredient-badge position-absolute ingredient-badge-hidden"></span></li>`;
         });
     }
 }
@@ -75,3 +84,22 @@ function btnClick(add, type, ingredient) {
     console.log(poke[type]);
     
 }
+
+function checkStickyStatus() {
+    let titles = document.querySelectorAll('.ms-title');
+    
+    titles.forEach(title => {
+        const rect = title.getBoundingClientRect();
+        
+        if (rect.top <= 0) {
+            title.style.backgroundImage = 'url(./img/icon.png)';
+            title.style.backgroundColor = 'rgb(135, 180, 135)';
+        }
+        if (rect.top > 0) {
+            title.style.backgroundImage = '';
+            title.style.backgroundColor = '';
+        }
+    });
+}
+
+window.addEventListener('scroll', checkStickyStatus);
