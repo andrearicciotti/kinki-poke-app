@@ -3,6 +3,7 @@ let poke = {};
 
 async function main() {
     const response = await fetch('../config.json');
+    let storage = JSON.parse(localStorage.getItem('cart')) || [];
 
     if (!response.ok) {
         throw new Error('Errore nel recupero dei dati');
@@ -11,15 +12,19 @@ async function main() {
     const data = await response.json();
     config = data[0];
     
-    console.log('File di configurazione: ', config);
-        
     generateBoxHTML(data);
     generateIngredientsHTML(data);
+    togglePokeBadge(storage.cart?.length);
 }
 
 function generateBoxHTML(data) {
     const config = data[0];
     const container = document.querySelector('.ingredients-container');
+    let priceContainer = document.querySelector('.price');
+
+    priceContainer.innerHTML = '';
+    container.innerHTML = '';
+
     let i = 0;
     let mb = '';
 
@@ -63,8 +68,6 @@ function generateIngredientsHTML(data) {
     }
 }
 
-main();
-
 function btnClick(add, type, ingredient) {
     let badge = document.getElementById(type+'-'+ingredient);
     let priceContainer = document.querySelector('.price');
@@ -106,13 +109,10 @@ function btnClick(add, type, ingredient) {
 
 function checkMaximals(type) {
     let maximals = config.maximals[type]
-    let quantity;
-    
-    for (const keyType in poke) {
-        quantity = 1;
-        for (const keyIngredient in poke[keyType]) {
-            quantity += poke[keyType][keyIngredient];
-        }
+    let quantity = 0;
+
+    for (const keyIngredient in poke[type]) {
+        quantity = poke[type][keyIngredient] + 1;
     }
 
     return quantity <= maximals
@@ -167,18 +167,39 @@ function checkStickyStatus() {
     });
 }
 
+function togglePokeBadge(nPokes) {
+    const pokeBadge = document.querySelector('.poke-badge');
+    pokeBadge.innerText = nPokes.toString();
+    
+    if (nPokes > 0) {
+        pokeBadge.classList.remove('badge-hidden')
+    }
+}
+
 function savePoke() {
-    let storage = JSON.parse(localStorage.getItem('cart')) || [];
-    console.log(storage);
+    let storage = JSON.parse(localStorage.getItem('cart')) || {};
+
+    if (!storage.cart) {
+        storage['cart'] = [];
+    }
 
     storage.cart.push(poke);
     localStorage.setItem('cart', JSON.stringify(storage.cart));
-
-    const totalPrice = storage.cart.reduce((total, currentPoke) => total + currentPoke.price, 0);
-
+    
+    const totalPrice = storage.cart.reduce((total, currentPoke) => total + currentPoke.price, 0).toFixed(2);
+    
     localStorage.setItem('cart', JSON.stringify({ cart: storage.cart, totalPrice: totalPrice }));
-
+    
+    togglePokeBadge(storage.cart.length);
     poke = {};
+    main();
+}
+
+function openCart() {
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    console.log('Carrello: ', cart);
 }
 
 window.addEventListener('scroll', checkStickyStatus);
+
+main();

@@ -79,12 +79,14 @@ body {
 .poke-badge {
     width: 23px;
     height: 23px;
-    top: -12px;
-    right: -15px;
+    top: 34px;
+    right: -3px;
     border-radius: 50%;
     background: rgb(255, 125, 125);
     color: white;
     font-weight: bolder;
+    text-align: center;
+    line-height: 23px;
 }
 
 .ms-btn {
