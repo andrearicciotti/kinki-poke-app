@@ -16,8 +16,6 @@ body {
 }
 
 .box {
-    /* height: 100px; */
-    border: 1px solid green;
     width: 100%;
 }
 
@@ -25,6 +23,42 @@ body {
     padding: 0;
 }
 
-.box ul li {
+.ingredient {
     list-style-type: none;
+    padding: .5rem 1.2rem;
+    border: 2px solid rgb(135, 180, 135);
+    width: fit-content;
+    border-radius: 5px;
+}
+
+.ingredient .fa-solid {
+    padding: .4rem;
+    background: rgb(135, 180, 135);
+    border-radius: 50%;
+    color: white;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.ingredient .fa-plus:active {
+    color: green;
+}
+
+.ingredient .fa-minus:active {
+    color: red;
+}
+
+.ingredient-badge {
+    width: 25px;
+    height: 25px;
+    top: -15px;
+    right: -15px;
+    border-radius: 50%;
+    background: rgb(255, 125, 125);
+    color: white;
+    font-weight: bolder;
+}
+
+.ingredient-badge-hidden {
+    display: none;
 }

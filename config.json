@@ -32,7 +32,7 @@
             "Sesamo",
             "Pistacchio granato",
             "Cipolla croccante",
-            "Mandorle croccanti a fette",
+            "Mandorle croccanti",
             "Kataifi (pasta fine fritta)"
         ],
         "sauces" : [
@@ -47,22 +47,22 @@
         ]
     },
     "limits" : {
-        "base" : 1,
-        "protein" : 2,
-        "green" : 4,
-        "topping" : 2,
-        "sauce" : 2
+        "bases" : 1,
+        "proteins" : 2,
+        "greens" : 4,
+        "toppings" : 2,
+        "sauces" : 2
     },
     "extra" : {
-        "protein" : 1,
-        "green" : 0.5,
-        "topping" : 0.5,
-        "sauce" : 0.5
+        "proteins" : 1,
+        "greens" : 0.5,
+        "toppings" : 0.5,
+        "sauces" : 0.5
     },
     "maximals" : {
-        "protein" : 6,
-        "green" : 8,
-        "topping" : 6,
-        "sauce" : 6
+        "proteins" : 6,
+        "greens" : 8,
+        "toppings" : 6,
+        "sauces" : 6
     }
 }]
