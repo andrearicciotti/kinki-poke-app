@@ -15,6 +15,53 @@ async function main() {
     generateBoxHTML(data);
     generateIngredientsHTML(data);
     togglePokeBadge(storage.cart?.length);
+    generateCart(storage.cart);
+}
+
+function generateCart(cart) {
+    const cartBody = document.querySelector('.cart-body');
+    let html = '';
+    console.log(cart);
+
+    if (cart.length > 0) {
+        cart.forEach(poke => {
+            console.log(poke);
+            
+            html += `
+                <div class="poke-item p-2 d-flex justify-content-between align-items-center gap-4">
+                    <div class="poke-img d-flex flex-column justify-content-between align-items-center">
+                        <img src="./img/poke.png" alt="immagine poke" class="px-auto h-100">
+                        <span class="fw-bold">${poke.price} €</span>
+                    </div>
+                    <div class="poke-resume d-flex flex-column align-items-start justify-content-evenly">
+            `;
+
+            for (const type in poke) {
+                let sIngredients = '';
+                html += `
+                        <div class="type-resume">
+                            <strong>${type}: </strong><span>
+                `;
+
+                for (const ingredient in poke[type]) {
+                    sIngredients += `
+                        ${poke[type][ingredient]},
+                    `
+                }
+
+                html += `
+                    ${sIngredients.slice(0, -1)}.
+                `;
+                html += `</span></div>`;
+            }
+            
+            html += `</div></div>`;
+        })
+
+        cartBody.innerHTML = html;
+    } else {
+
+    }
 }
 
 function generateBoxHTML(data) {
@@ -169,35 +216,36 @@ function checkStickyStatus() {
 
 function togglePokeBadge(nPokes) {
     const pokeBadge = document.querySelector('.poke-badge');
-    pokeBadge.innerText = nPokes.toString();
     
-    if (nPokes > 0) {
+    if (nPokes && nPokes > 0) {
+        pokeBadge.innerText = nPokes.toString();
         pokeBadge.classList.remove('badge-hidden')
     }
 }
 
 function savePoke() {
-    let storage = JSON.parse(localStorage.getItem('cart')) || {};
+    let pokeKeys = Object.keys(poke).length;
 
-    if (!storage.cart) {
-        storage['cart'] = [];
+    if (pokeKeys > 0) {
+        let storage = JSON.parse(localStorage.getItem('cart')) || {};
+    
+        if (!storage.cart) {
+            storage['cart'] = [];
+        }
+    
+        storage.cart.push(poke);
+        localStorage.setItem('cart', JSON.stringify(storage.cart));
+        
+        const totalPrice = storage.cart.reduce((total, currentPoke) => total + currentPoke.price, 0).toFixed(2);
+        
+        localStorage.setItem('cart', JSON.stringify({ cart: storage.cart, totalPrice: totalPrice }));
+        
+        togglePokeBadge(storage.cart.length);
+        poke = {};
+        main();
+    } else {
+        return
     }
-
-    storage.cart.push(poke);
-    localStorage.setItem('cart', JSON.stringify(storage.cart));
-    
-    const totalPrice = storage.cart.reduce((total, currentPoke) => total + currentPoke.price, 0).toFixed(2);
-    
-    localStorage.setItem('cart', JSON.stringify({ cart: storage.cart, totalPrice: totalPrice }));
-    
-    togglePokeBadge(storage.cart.length);
-    poke = {};
-    main();
-}
-
-function openCart() {
-    const cart = JSON.parse(localStorage.getItem('cart'));
-    console.log('Carrello: ', cart);
 }
 
 window.addEventListener('scroll', checkStickyStatus);
