@@ -37,6 +37,7 @@ function generateCart(storage) {
             
             html += `
                 <div class="poke-item p-2 d-flex justify-content-between align-items-center gap-3 my-3">
+                <button type="button" class="poke-btn-delete"></button>
                     <div class="poke-img d-flex flex-column justify-content-between align-items-center">
                         <img src="./img/poke.png" alt="immagine poke" class="px-auto h-100">
                         <span class="fw-bold">${poke.price.toFixed(2)} €</span>

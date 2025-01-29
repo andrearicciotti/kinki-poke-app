@@ -156,6 +156,16 @@ body {
     font-size: .8rem;
 }
 
+.poke-btn-delete {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    padding: .7rem;
+    border-radius: 50%;
+    border: none;
+    background:rgb(255, 125, 125);
+}
+
 .ms-cart {
     background: rgb(255, 238, 217);
 }
