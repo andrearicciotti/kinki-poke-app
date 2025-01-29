@@ -33,6 +33,7 @@ body {
     background: rgb(255, 238, 217);
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+    border-top: 2px solid rgb(135, 180, 135);
     transition: all 1s ease;
 }
 
@@ -105,7 +106,18 @@ body {
     background: rgb(255, 238, 217);
 }
 
+.poke-img-container {
+    background: transparent;
+    border: none;
+}
+
 .mb-6 {
     margin-bottom: 6rem !important;
+}
+
+.ms-close-canvas {
+    top: 15px;
+    right: 15px;
+    filter: invert(1);
 }
  

@@ -157,12 +157,12 @@ function checkStickyStatus() {
         const rect = title.getBoundingClientRect();
         
         if (rect.top <= 0) {
-            title.style.backgroundImage = 'url(./img/icon.png)';
             title.style.backgroundColor = 'rgb(135, 180, 135)';
+            title.style.color = 'white';
         }
         if (rect.top > 0) {
-            title.style.backgroundImage = '';
             title.style.backgroundColor = '';
+            title.style.color = '';
         }
     });
 }
