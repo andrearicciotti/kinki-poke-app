@@ -50,14 +50,14 @@ body {
 
 .ingredient {
     list-style-type: none;
-    padding: .5rem 1.2rem;
+    padding: .8rem 1.2rem;
     border: 2px solid rgb(135, 180, 135);
     border-radius: 5px;
     width: 90%;
 }
 
 .ingredient .fa-solid {
-    padding: .4rem;
+    padding: .8rem;
     background: rgb(135, 180, 135);
     border-radius: 50%;
     color: white;
@@ -111,7 +111,7 @@ body {
 
 .poke-storage-container {
     position: fixed;
-    height: 6rem;
+    height: 5rem;
     bottom: -10px;
     z-index: 10;
     background: rgb(255, 238, 217);
@@ -127,13 +127,16 @@ body {
 }
 
 .ms-close-canvas {
-    top: 15px;
-    right: 15px;
+    position: fixed;
+    top: 28px;
+    right: 25px;
     filter: invert(1);
 }
- 
+
 .poke-item {
     border: 2px solid rgb(135, 180, 135);
+    background: white;
+    border-radius: 15px;
     height: 100px;
     width: 100%;
     overflow-y: auto;
@@ -143,17 +146,27 @@ body {
 .poke-img {
     width: 30%;
     height: 100%;
-    border: 1px solid red;
     position: sticky;
     top: 0px;
 }
 
-.poke-ingredients {
+.poke-resume {
     width: 70%;
     height: 100%;
-    border: 1px solid red;
+    font-size: .8rem;
 }
 
-.poke-resume {
-    font-size: .8rem;
+.ms-cart {
+    background: rgb(255, 238, 217);
+}
+
+.ms-cart-footer {
+    background: rgb(255, 238, 217);
+    z-index: 15;
+    height: 5rem;
+}
+
+.ms-price {
+    width: 40%;
+    text-align: center;
 }

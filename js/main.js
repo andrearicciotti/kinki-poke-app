@@ -1,5 +1,12 @@
 let config;
 let poke = {};
+const translations = {
+    bases: "Base",
+    proteins: "Proteine",
+    greens: "Verdure",
+    toppings: "Condimenti",
+    sauces: "Salse",
+}
 
 async function main() {
     const response = await fetch('../config.json');
@@ -15,42 +22,44 @@ async function main() {
     generateBoxHTML(data);
     generateIngredientsHTML(data);
     togglePokeBadge(storage.cart?.length);
-    generateCart(storage.cart);
+    generateCart(storage);
 }
 
-function generateCart(cart) {
+function generateCart(storage) {
+    const cart = storage.cart;
     const cartBody = document.querySelector('.cart-body');
+    const cartTotal = document.querySelector('.ms-price');
     let html = '';
-    console.log(cart);
 
     if (cart.length > 0) {
+        cartTotal.innerHTML = `${storage.totalPrice} €`;
         cart.forEach(poke => {
-            console.log(poke);
             
             html += `
-                <div class="poke-item p-2 d-flex justify-content-between align-items-center gap-4">
+                <div class="poke-item p-2 d-flex justify-content-between align-items-center gap-3 my-3">
                     <div class="poke-img d-flex flex-column justify-content-between align-items-center">
                         <img src="./img/poke.png" alt="immagine poke" class="px-auto h-100">
-                        <span class="fw-bold">${poke.price} €</span>
+                        <span class="fw-bold">${poke.price.toFixed(2)} €</span>
                     </div>
-                    <div class="poke-resume d-flex flex-column align-items-start justify-content-evenly">
+                    <div class="poke-resume d-flex flex-column align-items-start justify-content-start">
             `;
 
             for (const type in poke) {
+                if(type == 'price') continue;
                 let sIngredients = '';
                 html += `
                         <div class="type-resume">
-                            <strong>${type}: </strong><span>
+                            <strong>${translations[type]}: </strong><span>
                 `;
 
                 for (const ingredient in poke[type]) {
                     sIngredients += `
-                        ${poke[type][ingredient]},
+                        ${ingredient} (<strong>${poke[type][ingredient]}</strong>)
                     `
                 }
 
                 html += `
-                    ${sIngredients.slice(0, -1)}.
+                    ${sIngredients}.
                 `;
                 html += `</span></div>`;
             }
@@ -60,7 +69,7 @@ function generateCart(cart) {
 
         cartBody.innerHTML = html;
     } else {
-
+        cartBody.innerHTML = 'Nessuna poke nel carrello';
     }
 }
 
@@ -81,14 +90,6 @@ function generateBoxHTML(data) {
 
         if (Object.keys(config.ingredients).length == i) {
             mb = 'mb-6'
-        }
-
-        let translations = {
-            bases: "Base",
-            proteins: "Proteine",
-            greens: "Verdure",
-            toppings: "Condimenti",
-            sauces: "Salse",
         }
         
         container.innerHTML += 
