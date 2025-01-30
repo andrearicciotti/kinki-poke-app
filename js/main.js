@@ -25,20 +25,37 @@ async function main() {
     generateCart(storage);
 }
 
+function deletePoke(index) {
+    let storage = JSON.parse(localStorage.getItem('cart')) || [];
+    console.log(storage.cart, storage.totalPrice);
+    
+    const totalPrice = (parseFloat(storage.totalPrice) - storage.cart[index].price).toFixed(2).toString();
+    storage.cart.splice(index,1);
+    
+    localStorage.setItem('cart', JSON.stringify({ cart: storage.cart, totalPrice: totalPrice }));
+
+    storage = JSON.parse(localStorage.getItem('cart')) || [];
+
+    generateCart(storage);
+    togglePokeBadge(storage.cart?.length);
+}
+
 function generateCart(storage) {
     const cart = storage.cart;
     const cartBody = document.querySelector('.cart-body');
     const cartTotal = document.querySelector('.ms-price');
+    cartBody.innerHTML = '';
     let html = '';
+    console.log(cart);
 
     if (cart.length > 0) {
         cartTotal.innerHTML = `${storage.totalPrice} €`;
-        cart.forEach(poke => {
+        cart.forEach((poke,index) => {
             
             html += `
                 <div class="poke-item p-2 d-flex justify-content-between align-items-center gap-3 my-3">
                     <div class="poke-img d-flex flex-column justify-content-between align-items-center">
-                        <button type="button" class="poke-btn-delete"></button>
+                        <button type="button" class="poke-btn-delete" onclick="deletePoke(${index})"><i class="fa-regular fa-trash-can"></i></button>
                         <img src="./img/poke.png" alt="immagine poke" class="px-auto h-100">
                         <span class="fw-bold">${poke.price.toFixed(2)} €</span>
                     </div>
@@ -72,6 +89,8 @@ function generateCart(storage) {
     } else {
         cartBody.innerHTML = 'Nessuna poke nel carrello';
     }
+
+    cartTotal.innerHTML = `${storage.totalPrice} €`;
 }
 
 function generateBoxHTML(data) {
@@ -158,12 +177,14 @@ function btnClick(add, type, ingredient) {
 
 function checkMaximals(type) {
     let maximals = config.maximals[type]
-    let quantity = 0;
+    let quantity = 1;
 
     for (const keyIngredient in poke[type]) {
-        quantity = poke[type][keyIngredient] + 1;
+        quantity += poke[type][keyIngredient];
     }
 
+    console.log(quantity, maximals);
+    
     return quantity <= maximals
 }
 
@@ -221,7 +242,9 @@ function togglePokeBadge(nPokes) {
     
     if (nPokes && nPokes > 0) {
         pokeBadge.innerText = nPokes.toString();
-        pokeBadge.classList.remove('badge-hidden')
+        pokeBadge.classList.remove('badge-hidden');
+    } else {
+        pokeBadge.classList.add('badge-hidden');
     }
 }
 
