@@ -43,7 +43,6 @@ body {
     background: rgb(135, 180, 135);
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    border-top: 2px solid rgb(135, 180, 135);
     transition: all 1s ease;
     color: white;
 }
@@ -127,8 +126,8 @@ body {
 }
 
 .ms-close-canvas {
-    position: fixed;
-    top: 28px;
+    position: absolute;
+    top: 30px;
     right: 25px;
     filter: invert(1);
 }
@@ -140,7 +139,6 @@ body {
     height: 100px;
     width: 100%;
     overflow-y: auto;
-    position: relative;
 }
 
 .poke-img {
@@ -159,7 +157,7 @@ body {
 .poke-btn-delete {
     position: absolute;
     top: 4px;
-    right: 4px;
+    left: 4px;
     padding: .7rem;
     border-radius: 50%;
     border: none;
@@ -174,9 +172,12 @@ body {
     background: rgb(255, 238, 217);
     z-index: 15;
     height: 5rem;
+    bottom: 0;
+    position: fixed;
+    bottom: 0;
 }
 
 .ms-price {
-    width: 40%;
+    width: 100px;
     text-align: center;
 }

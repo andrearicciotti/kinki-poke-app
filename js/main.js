@@ -9,7 +9,7 @@ const translations = {
 }
 
 async function main() {
-    const response = await fetch('../config.json');
+    const response = await fetch('./config.json');
     let storage = JSON.parse(localStorage.getItem('cart')) || [];
 
     if (!response.ok) {
@@ -37,8 +37,8 @@ function generateCart(storage) {
             
             html += `
                 <div class="poke-item p-2 d-flex justify-content-between align-items-center gap-3 my-3">
-                <button type="button" class="poke-btn-delete"></button>
                     <div class="poke-img d-flex flex-column justify-content-between align-items-center">
+                        <button type="button" class="poke-btn-delete"></button>
                         <img src="./img/poke.png" alt="immagine poke" class="px-auto h-100">
                         <span class="fw-bold">${poke.price.toFixed(2)} €</span>
                     </div>
@@ -68,7 +68,7 @@ function generateCart(storage) {
             html += `</div></div>`;
         })
 
-        cartBody.innerHTML = html;
+        cartBody.innerHTML = html + cartBody.innerHTML;
     } else {
         cartBody.innerHTML = 'Nessuna poke nel carrello';
     }
