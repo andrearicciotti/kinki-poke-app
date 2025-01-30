@@ -127,7 +127,7 @@ body {
 
 .ms-close-canvas {
     position: absolute;
-    top: 30px;
+    top: 28px;
     right: 25px;
     filter: invert(1);
 }
