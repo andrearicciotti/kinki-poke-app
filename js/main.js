@@ -1,5 +1,12 @@
 let config;
-let poke = {};
+let poke = {
+    basis: {},
+    proteins: {},
+    greens: {},
+    toppings: {},
+    sauces: {},
+    price: {}
+};
 const translations = {
     bases: "Base",
     proteins: "Proteine",
@@ -60,7 +67,6 @@ function openWhatsapp() {
 
 function deletePoke(index) {
     let storage = JSON.parse(localStorage.getItem('cart')) || [];
-    console.log(storage.cart, storage.totalPrice);
     
     const totalPrice = (parseFloat(storage.totalPrice) - storage.cart[index].price).toFixed(2).toString();
     storage.cart.splice(index,1);
@@ -79,7 +85,6 @@ function generateCart(storage) {
     const cartTotal = document.querySelector('.ms-price');
     cartBody.innerHTML = '';
     let html = '';
-    console.log(cart);
 
     if (cart.length > 0) {
         cartTotal.innerHTML = `${storage.totalPrice} €`;
@@ -97,6 +102,8 @@ function generateCart(storage) {
 
             for (const type in poke) {
                 if(type == 'price') continue;
+                if (!Object.keys(poke[type]).length > 0) {continue};
+
                 let sIngredients = '';
                 html += `
                         <div class="type-resume">
@@ -105,13 +112,11 @@ function generateCart(storage) {
 
                 for (const ingredient in poke[type]) {
                     sIngredients += `
-                        ${ingredient} (<strong>${poke[type][ingredient]}</strong>)
-                    `
+                        ${ingredient} <strong>${poke[type][ingredient] > 1 ? '(x'+poke[type][ingredient]+')' : ''}</strong>,`
                 }
 
                 html += `
-                    ${sIngredients}.
-                `;
+                    ${sIngredients.slice(0,-1)}.`;
                 html += `</span></div>`;
             }
             
@@ -145,12 +150,26 @@ function generateBoxHTML(data) {
             mb = 'mb-6'
         }
         
-        container.innerHTML += 
-        `<div class="box my-2 ${mb} text-center">
-            <h2 style="z-index:${i}" class="mt-3 mb-4 py-3 fw-bolder ms-title fs-1">${translations[key]}</h2>
-            <ul class="${key+'-list'} d-flex flex-column align-items-center">
-            </ul>
-        </div>`;
+        if (key == 'bases') {
+
+            container.innerHTML += 
+            `<div class="box my-2 ${mb} text-center">
+                <h2 style="z-index:${i}" class="mt-3 mb-2 py-3 fw-bolder ms-title fs-1">${translations[key]}</h2>
+                <select class="${key+'-list'} form-select ms-select" id="${key}" name="${key}" onchange="updateBase()">
+                <option value="">Seleziona una base</option>
+                </select>
+            </div>`;
+
+        } else {
+
+            container.innerHTML += 
+            `<div class="box my-2 ${mb} text-center">
+                <h2 style="z-index:${i}" class="mt-3 mb-4 py-3 fw-bolder ms-title fs-1">${translations[key]}</h2>
+                <ul class="${key+'-list'} d-flex flex-column align-items-center">
+                </ul>
+            </div>`;
+
+        }
     }
 }
 
@@ -163,8 +182,18 @@ function generateIngredientsHTML(data) {
         config.ingredients[key].forEach(ingredient => {
             list = document.querySelector('.'+key+'-list');
 
-            list.innerHTML += 
-            `<li class="ingredient my-2 d-flex align-items-center justify-content-between position-relative"><i class="fa-solid fa-minus me-3" onclick="btnClick(false,'${key}','${ingredient.replace("'", "\\'")}')"></i></i><span class="ingredient-text">${ingredient}</span><i class="fa-solid fa-plus ms-3" onclick="btnClick(true,'${key}','${ingredient.replace("'", "\\'")}')"></i><span id="${key}-${ingredient}" class="ingredient-badge position-absolute badge-hidden"></span></li>`;
+            if (key == 'bases') {
+                
+                list.innerHTML += `
+                <option value="${ingredient}">${ingredient}</option>
+                `
+
+            } else {
+
+                list.innerHTML += 
+                `<li class="ingredient my-2 d-flex align-items-center justify-content-between position-relative"><i class="fa-solid fa-minus me-3" onclick="btnClick(false,'${key}','${ingredient.replace("'", "\\'")}')"></i></i><span class="ingredient-text">${ingredient}</span><i class="fa-solid fa-plus ms-3" onclick="btnClick(true,'${key}','${ingredient.replace("'", "\\'")}')"></i><span id="${key}-${ingredient}" class="ingredient-badge position-absolute badge-hidden"></span></li>`;
+
+            }
         });
     }
 }
@@ -208,6 +237,13 @@ function btnClick(add, type, ingredient) {
     checkLimits();
 }
 
+function updateBase() {
+    const baseSelection = document.getElementById('bases');
+    const selectedBase = baseSelection.options[baseSelection.selectedIndex].value;
+    console.log(selectedBase);
+    
+}
+
 function checkMaximals(type) {
     let maximals = config.maximals[type]
     let quantity = 1;
@@ -216,7 +252,6 @@ function checkMaximals(type) {
         quantity += poke[type][keyIngredient];
     }
 
-    console.log(quantity, maximals);
     
     return quantity <= maximals
 }
@@ -282,6 +317,8 @@ function togglePokeBadge(nPokes) {
 }
 
 function savePoke() {
+    console.log(poke);
+    
     let pokeKeys = Object.keys(poke).length;
 
     if (pokeKeys > 0) {
