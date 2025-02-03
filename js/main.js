@@ -1,6 +1,6 @@
 let config;
 let poke = {
-    basis: {},
+    bases: {},
     proteins: {},
     greens: {},
     toppings: {},
@@ -102,6 +102,7 @@ function generateCart(storage) {
 
             for (const type in poke) {
                 if(type == 'price') continue;
+                
                 if (!Object.keys(poke[type]).length > 0) {continue};
 
                 let sIngredients = '';
@@ -155,7 +156,7 @@ function generateBoxHTML(data) {
             container.innerHTML += 
             `<div class="box my-2 ${mb} text-center">
                 <h2 style="z-index:${i}" class="mt-3 mb-2 py-3 fw-bolder ms-title fs-1">${translations[key]}</h2>
-                <select class="${key+'-list'} form-select ms-select" id="${key}" name="${key}" onchange="updateBase()">
+                <select class="${key+'-list'} form-select ms-select mx-auto" id="${key}" name="${key}" onchange="updateBase()">
                 <option value="">Seleziona una base</option>
                 </select>
             </div>`;
@@ -241,7 +242,9 @@ function updateBase() {
     const baseSelection = document.getElementById('bases');
     const selectedBase = baseSelection.options[baseSelection.selectedIndex].value;
     console.log(selectedBase);
-    
+
+    poke.bases = {};
+    poke.bases[selectedBase] = 1;
 }
 
 function checkMaximals(type) {
@@ -317,8 +320,6 @@ function togglePokeBadge(nPokes) {
 }
 
 function savePoke() {
-    console.log(poke);
-    
     let pokeKeys = Object.keys(poke).length;
 
     if (pokeKeys > 0) {
