@@ -45,26 +45,34 @@ function openWhatsapp() {
     const cart = storage.cart;
     let ordination = '';
     let ingredients = '';
+    let price;
 
     cart.forEach((poke,index) => {
         ordination += `\n*Poke ${index+1}*: `
         for (const type in poke) {
-            if(type == 'price') continue;
-
+            
+            if(type == 'price') {price = poke[type].toFixed(2);continue};
+            if (!Object.keys(poke[type]).length > 0 && type != 'size' && type != 'base') {continue};
+            
             ingredients = '';
             ordination += `\n${translations[type]}:`;
-
-            for (const ingredient in poke[type]) {
-                ingredients += ` ${ingredient} (*${poke[type][ingredient]}*),`;
+            
+            if (type != 'size' && type != 'base') {
+                for (const ingredient in poke[type]) {
+                    ingredients += ` ${ingredient} (*${poke[type][ingredient]}*),`;
+                }
+            } else {
+                ingredients += ` *${poke[type]}* `;
             }
-
+            
             ingredients = ingredients.slice(0,-1) + '.';
             ordination += ingredients;
-
         }
+        ordination += `\nPrezzo: *${price} €*.\n`
     });
 
-    const message = encodeURIComponent(`Ciao! Vorrei effettuare questa ordinazione:${ordination}`);
+    ordination += `\n Totale: *${storage.totalPrice} €*.`;
+    const message = encodeURIComponent(`Ciao! Vorrei effettuare questa ordinazione:\n${ordination}`);
 
     if (cart.length > 0) {
         const url = `https://wa.me/${config.numero}?text=${message}`;
