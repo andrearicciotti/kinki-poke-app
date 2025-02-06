@@ -1,17 +1,18 @@
 [{
     "sizes" : {
-        "regular" : {
-            "price" : "10,90"
+        "Regular" : {
+            "price" : 10.90
         },
-        "large" : {
-            "price" : "13,90"
+        "Large" : {
+            "price" : 13.90
         }
     },
     "ingredients" : {
         "bases" : [
-            "riso bianco",
-            "riso nero",
-            "riso misto"
+            "Riso bianco",
+            "Riso nero",
+            "Riso misto",
+            "Insalata fresca"
         ],
         "proteins" : [
             "Salmone tartare",
@@ -20,42 +21,43 @@
             "Octopus",
             "Gamberi cotti",
             "Tonno cotto",
-            "Ceci",
             "Gamberi fritti",
             "Pollo fritto"
         ],
 
         "greens" : [
             "Mais",
-            "Carote",
             "Cetriolo",
+            "Carote",
             "Pomodoro",
             "Wakame (alghe)",
+            "Alga nori",
             "Edamame (fagioli)",
             "Anelli di olive",
             "Avocado",
-            "Mango"
+            "Mango", 
+            "Ceci"
         ],
         "toppings" : [
             "Sesamo",
             "Pistacchio granato",
             "Cipolla croccante",
             "Mandorle croccanti",
-            "Kataifi (pasta fine fritta)"
+            "Kataifi (pasta fine fritta)",
+            "Nachos in pezzettini"
         ],
         "sauces" : [
             "Soia",
-            "Mango",
+            "Salsa mango",
             "Teriyaki",
             "Maionese",
             "Olio d' oliva extravergine",
             "Philadelphia",
-            "Chili (piccante)",
+            "Chilli (piccante)",
             "Creamcheese (piccante)"
         ]
     },
     "limits" : {
-        "bases" : 1,
         "proteins" : 2,
         "greens" : 4,
         "toppings" : 2,

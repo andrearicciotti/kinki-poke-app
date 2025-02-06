@@ -9,11 +9,18 @@ let poke = {
     price: {}
 };
 const translations = {
+    sizes: 'Dimensione',
+    size: 'Dimensione',
     bases: "Base",
+    base: "Base",
     proteins: "Proteine",
     greens: "Verdure",
     toppings: "Condimenti",
     sauces: "Salse",
+}
+let baseDimension = {
+    base: false,
+    dimension: false
 }
 
 async function main() {
@@ -103,6 +110,22 @@ function generateCart(storage) {
 
             for (const type in poke) {
                 if(type == 'price') continue;
+
+                if (type == 'size') {
+                    html += `
+                    <div class="type-resume">
+                        <strong>${translations[type]}: </strong><span>${poke[type]}.</span></div>
+                    `;
+                    continue
+                }
+
+                if (type == 'base') {
+                    html += `
+                    <div class="type-resume">
+                        <strong>${translations[type]}: </strong><span>${poke[type]}.</span></div>
+                    `;
+                    continue
+                }
                 
                 if (!Object.keys(poke[type]).length > 0) {continue};
 
@@ -113,12 +136,10 @@ function generateCart(storage) {
                 `;
 
                 for (const ingredient in poke[type]) {
-                    sIngredients += `
-                        ${ingredient} <strong>${poke[type][ingredient] > 1 ? '(x'+poke[type][ingredient]+')' : ''}</strong>,`
+                    sIngredients += `${ingredient}<strong>${poke[type][ingredient] > 1 ? '(x'+poke[type][ingredient]+')' : ''}</strong>, `
                 }
 
-                html += `
-                    ${sIngredients.slice(0,-1)}.`;
+                html += `${sIngredients.slice(0,-2)}.`;
                 html += `</span></div>`;
             }
             
@@ -146,8 +167,8 @@ function generateBoxHTML(data) {
 
     container.innerHTML += 
     `<div class="box my-2 text-center">
-        <h2 style="z-index:${i++}" class="mt-3 mb-2 py-3 fw-bolder ms-title fs-1">Sizes</h2>
-        <select class="sizes-list" form-select ms-select mx-auto" id="sizes" name="sizes" onchange="updateSize()">
+        <h2 style="z-index:${i++}" class="mt-3 mb-3 py-3 fw-bolder ms-title border-0 fs-1">${translations.sizes}</h2>
+        <select class="sizes-list form-select ms-select mx-auto" id="sizes" name="sizes" onchange="updateSize()">
         <option value="">Seleziona una dimensione</option>
         </select>
     </div>`;
@@ -165,7 +186,7 @@ function generateBoxHTML(data) {
 
             container.innerHTML += 
             `<div class="box my-2 ${mb} text-center">
-                <h2 style="z-index:${i}" class="mt-3 mb-2 py-3 fw-bolder ms-title fs-1">${translations[key]}</h2>
+                <h2 style="z-index:${i}" class="mt-3 mb-3 py-3 fw-bolder ms-title fs-1">${translations[key]}</h2>
                 <select class="${key+'-list'} form-select ms-select mx-auto" id="${key}" name="${key}" onchange="updateBase()">
                 <option value="">Seleziona una base</option>
                 </select>
@@ -174,7 +195,7 @@ function generateBoxHTML(data) {
         } else {
 
             container.innerHTML += 
-            `<div class="box my-2 ${mb} text-center">
+            `<div class="box my-2 ${mb} text-center d-none toggle-box">
                 <h2 style="z-index:${i}" class="mt-3 mb-4 py-3 fw-bolder ms-title fs-1">${translations[key]}</h2>
                 <ul class="${key+'-list'} d-flex flex-column align-items-center">
                 </ul>
@@ -258,20 +279,60 @@ function btnClick(add, type, ingredient) {
     checkLimits();
 }
 
+function checkProceed() {
+    let boxes = document.querySelectorAll('.toggle-box');
+
+    if (baseDimension.base == true && baseDimension.size == true) {
+        boxes.forEach(box => {
+            box.classList.remove('d-none');
+        })
+    } else {
+        boxes.forEach(box => {
+            box.classList.add('d-none');
+        })
+    }
+}
+
 function updateBase() {
     const baseSelection = document.getElementById('bases');
     const selectedBase = baseSelection.options[baseSelection.selectedIndex].value;
 
     poke.base = null;
     poke.base = selectedBase;
+
+    selectedBase != '' ? baseDimension.base = true : '';
+    selectedBase == '' ? baseDimension.base = false : '';
+
+    checkProceed();
 }
 
 function updateSize() {
     const sizeSelection = document.getElementById('sizes');
     const selectedSize = sizeSelection.options[sizeSelection.selectedIndex].value;
-
+    
     poke.size = null;
     poke.size = selectedSize;
+    
+    selectedSize != '' ? baseDimension.size = true : '';
+    selectedSize == '' ? baseDimension.size = false : '';
+    
+    let priceContainer = document.querySelector('.price');
+    let price = `${config.sizes[poke.size].price.toFixed(2)} €`;
+    priceContainer.innerText = price;    
+    poke['price'] = config.sizes[poke.size].price;
+
+    if (selectedSize == 'Regular') {
+        config.limits.proteins = 2;
+        config.limits.greens = 4;
+    }
+
+    if (selectedSize == 'Large') {
+        config.limits.proteins = 3;
+        config.limits.greens = 5;
+    }
+
+    checkLimits();
+    checkProceed();
 }
 
 function checkMaximals(type) {
@@ -289,6 +350,7 @@ function checkMaximals(type) {
 function checkLimits() {
     let priceContainer = document.querySelector('.price');
     let price = parseFloat(config.sizes[poke.size].price);
+    
     let toAdd = 0;
 
     for (const keyType in poke) {
@@ -348,6 +410,8 @@ function togglePokeBadge(nPokes) {
 
 function savePoke() {
     let pokeKeys = Object.keys(poke).length;
+    baseDimension.base = false;
+    baseDimension.size = false;
 
     if (pokeKeys > 0) {
         let storage = JSON.parse(localStorage.getItem('cart')) || {};
