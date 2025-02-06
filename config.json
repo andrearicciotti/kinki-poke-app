@@ -1,5 +1,12 @@
 [{
-    "price" : "9.90",
+    "sizes" : {
+        "regular" : {
+            "price" : "10,90"
+        },
+        "large" : {
+            "price" : "13,90"
+        }
+    },
     "ingredients" : {
         "bases" : [
             "riso bianco",

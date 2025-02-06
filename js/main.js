@@ -1,6 +1,7 @@
 let config;
 let poke = {
-    bases: {},
+    size: null,
+    base: null,
     proteins: {},
     greens: {},
     toppings: {},
@@ -86,7 +87,7 @@ function generateCart(storage) {
     cartBody.innerHTML = '';
     let html = '';
 
-    if (cart.length > 0) {
+    if (cart && cart.length > 0) {
         cartTotal.innerHTML = `${storage.totalPrice} €`;
         cart.forEach((poke,index) => {
             
@@ -143,7 +144,16 @@ function generateBoxHTML(data) {
     let i = 0;
     let mb = '';
 
+    container.innerHTML += 
+    `<div class="box my-2 text-center">
+        <h2 style="z-index:${i++}" class="mt-3 mb-2 py-3 fw-bolder ms-title fs-1">Sizes</h2>
+        <select class="sizes-list" form-select ms-select mx-auto" id="sizes" name="sizes" onchange="updateSize()">
+        <option value="">Seleziona una dimensione</option>
+        </select>
+    </div>`;
     
+    i++
+
     for (const key in config.ingredients) {
         i++;
 
@@ -178,6 +188,16 @@ function generateIngredientsHTML(data) {
     const config = data[0];
     let list;
 
+    for (const keySize in config.sizes) {
+        
+        list = document.querySelector('.sizes-list');
+            
+        list.innerHTML += `
+        <option value="${keySize}">${keySize}</option>
+        `
+
+    }
+
     for (const key in config.ingredients) {
         
         config.ingredients[key].forEach(ingredient => {
@@ -205,7 +225,7 @@ function btnClick(add, type, ingredient) {
 
     if (add) {
         if (priceContainer.innerText == '') {
-            priceContainer.innerText = `${config.price} €`;    
+            priceContainer.innerText = `${config.sizes[poke.size].price} €`;    
         }
 
         if (!poke[type]) {
@@ -241,10 +261,17 @@ function btnClick(add, type, ingredient) {
 function updateBase() {
     const baseSelection = document.getElementById('bases');
     const selectedBase = baseSelection.options[baseSelection.selectedIndex].value;
-    console.log(selectedBase);
 
-    poke.bases = {};
-    poke.bases[selectedBase] = 1;
+    poke.base = null;
+    poke.base = selectedBase;
+}
+
+function updateSize() {
+    const sizeSelection = document.getElementById('sizes');
+    const selectedSize = sizeSelection.options[sizeSelection.selectedIndex].value;
+
+    poke.size = null;
+    poke.size = selectedSize;
 }
 
 function checkMaximals(type) {
@@ -261,7 +288,7 @@ function checkMaximals(type) {
 
 function checkLimits() {
     let priceContainer = document.querySelector('.price');
-    let price = parseFloat(config.price);
+    let price = parseFloat(config.sizes[poke.size].price);
     let toAdd = 0;
 
     for (const keyType in poke) {
